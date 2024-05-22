@@ -32,6 +32,17 @@ def build_command_parser():
     parser.add_command(TreeNode('filter', filter_action))
     parser.add_command(TreeNode('report', report_action))
 
+    todo_parser = TreeNode('todo')
+    todo_parser.add_child(TreeNode('show', todo_show_action))
+    todo_parser.add_child(TreeNode('count', todo_count_action))
+    todo_parser.add_child(TreeNode('dd', todo_dd_action))
+    todo_parser.add_child(TreeNode('add', todo_add_action))
+    parser.add_command(todo_parser)
+
+    parser.add_command(TreeNode('cls', clear_action))
+    parser.add_command(TreeNode('clear', clear_action))
+    
+
     parser.add_command(TreeNode('exit', exit_action))
 
     return parser

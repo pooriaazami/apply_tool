@@ -13,3 +13,7 @@ def install():
         appdata_path = os.path.join(root, appdata_path)
         with open(appdata_path, 'w') as file:
             file.write('last_prof_id=0\n')
+        
+        todo_path = os.path.join(root, os.environ.get('TODO_PATH', 'todo.txt'))
+        with open(todo_path, 'w'):
+            pass

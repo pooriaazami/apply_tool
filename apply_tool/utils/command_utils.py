@@ -10,6 +10,7 @@ from .query_utils import *
 __DATABASE_ROOT = os.environ.get('DATABASE_ROOT', 'database')
 __COUNTRIES_ROOT = os.environ.get('COUNTRIES_ROOT', 'countries')
 __APPDATA_PATH = os.environ.get('APPDATA_PATH', 'appdata.txt')
+__TODO_PATH = os.environ.get('TODO_PATH', 'todo.txt')
 
 def load_appdata():
     appdata_path = os.path.join(__DATABASE_ROOT, __APPDATA_PATH)
@@ -144,6 +145,55 @@ def filter_action(*tag_query):
         for i, prof in enumerate(result):
             prof_name = prof.replace('\\', '/').split('/')[5]
             print(f'{i + 1}. {prof_name}')
+
+def todo_show_action(*args):
+    path = glob.glob(f'{__DATABASE_ROOT}/{__TODO_PATH}')[0]
+
+    if len(args) == 0:
+        n = -1
+    else:
+        n = int(args[0])
+
+    with open(path) as file:
+        for i, line in enumerate(file):
+            if i == n:
+                break
+            print(f'{i + 1}. {line}', end='')
+
+        print()
+
+def todo_count_action():
+    path = glob.glob(f'{__DATABASE_ROOT}/{__TODO_PATH}')[0]
+    with open(path) as file:
+        count = len(file.readlines())
+
+    print(f'There are {count} line(s) in the todo file')
+
+def todo_dd_action(*line_numbers):
+    path = glob.glob(f'{__DATABASE_ROOT}/{__TODO_PATH}')[0]
+    with open(path) as file:
+        data = file.readlines()
+
+    line_numbers = list(map(lambda x: int(x), line_numbers))
+
+    output = []
+    for i, line in enumerate(data):
+        if i + 1 not in line_numbers:
+            output.append(line)
+
+    with open(path, 'w') as file:
+        file.write(''.join(output)) 
+
+def todo_add_action(*args):
+    path = glob.glob(f'{__DATABASE_ROOT}/{__TODO_PATH}')[0]
+
+    with open(path, 'a') as file:
+        for arg in args:
+            file.write('\n' + arg)
+
+
+def clear_action():
+    os.system('cls')
 
 def report_action():
     report_menu()

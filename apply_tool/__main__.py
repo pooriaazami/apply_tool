@@ -12,6 +12,9 @@ def main():
 
     while True:
         command = input('>> ').strip()
+        if len(command) == 0:
+            continue
+
         parser.parse(command)
 
         if command.lower() == 'exit':
